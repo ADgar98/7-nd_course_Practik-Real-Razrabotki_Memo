@@ -38,21 +38,7 @@ export const AuthProvider = ({ children }) => {
 
     // Универсальный метод для авторизационных запросов
     const makeAuthRequest = async (url, data) => {
-        // Преобразуем данные в формат URLSearchParams
-        // const params = new URLSearchParams()
-        // for (const key in data) {
-        //     params.append(key, data[key])
-        // }
-
-        
-        
         try {
-            // const response = await axios({
-            //     url,
-            //     data,
-            //     method:'post',
-            //     // headers: 
-            // })
             const res = await fetch (url, {
                 method: 'post',
                 body: JSON.stringify(data)
@@ -73,9 +59,6 @@ export const AuthProvider = ({ children }) => {
             userHost + `/login`,
             { login, password }
         )
-        console.log(result)
-
-
         if (result.success) {
             localStorage.setItem('token', result.data.user.token)
             setUser(result.data.user.name)

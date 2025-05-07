@@ -4,21 +4,6 @@ import { useState, useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import Button from '../Button'
 import Input from '../Input'
-// import axios from 'axios'
-
-// const Form = styled.form`
-//     display: flex;
-//     flex-direction: column;
-//     gap: 20px;
-//     width: 100%;
-//     max-width: 400px;
-//     margin: 0 auto;
-// `
-
-// const ErrorMessage = styled.p`
-//     color: #ff4d4f;
-//     margin: 0;
-// `
 
 const AuthForm = ({ isLogin, onSuccess }) => {
     const [formData, setFormData] = useState({
@@ -39,12 +24,6 @@ const AuthForm = ({ isLogin, onSuccess }) => {
         e.preventDefault()
         setError('')
         setIsSubmitting(true)
-
-        // axios({
-        //     url:'https://wedev-api.sky.pro/api/user/login',
-        //     params: data,
-        //     method:'post'
-        // })
 
         let result
         if (isLogin) {
