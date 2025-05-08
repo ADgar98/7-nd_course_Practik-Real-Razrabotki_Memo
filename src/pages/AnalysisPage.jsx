@@ -4,22 +4,24 @@ import { TransactionsContext } from '../context/TransactionsContext'
 import { format, subMonths, subYears, startOfMonth, endOfMonth } from 'date-fns'
 import Button from '../components/Button.jsx'
 
-import { CATEGORIES } from '../constants/categories';
+import { CATEGORIES } from '../constants/categories'
+
+import { Header } from '../components/Header/Header'
 
 const Container = styled.div`
     max-width: 1200px;
     margin: 0 auto;
 `
-
-const Header = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+export const StyleAnalysis = styled.div`
+    padding-left: 120px;
 `
 
 const Title = styled.h2`
     margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 `
 
 const PeriodSelector = styled.div`
@@ -139,52 +141,56 @@ const AnalysisPage = () => {
         return acc
     }, {})
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <div>Загрузка...</div>
 
     return (
         <Container>
-            <Header>
+            <Header />
+            <StyleAnalysis>
                 <Title>Анализ расходов</Title>
-            </Header>
+                <PeriodSelector>
+                    <PeriodButton
+                        active={period === 'month'}
+                        onClick={() => handlePeriodChange('month')}
+                    >
+                        Месяц
+                    </PeriodButton>
+                    <PeriodButton
+                        active={period === '3months'}
+                        onClick={() => handlePeriodChange('3months')}
+                    >
+                        3 месяца
+                    </PeriodButton>
+                    <PeriodButton
+                        active={period === 'year'}
+                        onClick={() => handlePeriodChange('year')}
+                    >
+                        Год
+                    </PeriodButton>
+                </PeriodSelector>
 
-            <PeriodSelector>
-                <PeriodButton
-                    active={period === 'month'}
-                    onClick={() => handlePeriodChange('month')}
-                >
-                    Месяц
-                </PeriodButton>
-                <PeriodButton
-                    active={period === '3months'}
-                    onClick={() => handlePeriodChange('3months')}
-                >
-                    3 месяца
-                </PeriodButton>
-                <PeriodButton
-                    active={period === 'year'}
-                    onClick={() => handlePeriodChange('year')}
-                >
-                    Год
-                </PeriodButton>
-            </PeriodSelector>
+                <Summary>
+                    <SummaryTitle>Общие расходы за период</SummaryTitle>
+                    <SummaryAmount>{totalAmount} ₽</SummaryAmount>
+                    <div>
+                        {format(startDate, 'dd.MM.yyyy')} -{' '}
+                        {format(endDate, 'dd.MM.yyyy')}
+                    </div>
+                </Summary>
 
-            <Summary>
-                <SummaryTitle>Общие расходы за период</SummaryTitle>
-                <SummaryAmount>{totalAmount} ₽</SummaryAmount>
-                <div>
-                    {format(startDate, 'dd.MM.yyyy')} -{' '}
-                    {format(endDate, 'dd.MM.yyyy')}
-                </div>
-            </Summary>
-
-            <Categories>
-                {Object.entries(categoryTotals).map(([category, amount]) => (
-                    <CategoryCard key={category}>
-                        <CategoryTitle>{CATEGORIES[category]}</CategoryTitle>
-                        <CategoryAmount>{amount} ₽</CategoryAmount>
-                    </CategoryCard>
-                ))}
-            </Categories>
+                <Categories>
+                    {Object.entries(categoryTotals).map(
+                        ([category, amount]) => (
+                            <CategoryCard key={category}>
+                                <CategoryTitle>
+                                    {CATEGORIES[category]}
+                                </CategoryTitle>
+                                <CategoryAmount>{amount} ₽</CategoryAmount>
+                            </CategoryCard>
+                        )
+                    )}
+                </Categories>
+            </StyleAnalysis>
         </Container>
     )
 }
